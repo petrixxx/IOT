@@ -6,11 +6,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Filament\Panel;
+use Filament\Models\Contracts\FilamentUser;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+
+    // a User osztályon belül:
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return str_ends_with($this->email, '@inf.elte.hu');
+    }
 
     /**
      * The attributes that are mass assignable.
