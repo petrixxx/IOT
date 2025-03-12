@@ -35,7 +35,7 @@ class DeviceTypeResource extends Resource
     }
 
 
-    
+
     public static function form(Form $form): Form
     {
         return $form
@@ -85,7 +85,7 @@ class DeviceTypeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\DevicesRelationManager::class,
         ];
     }
 

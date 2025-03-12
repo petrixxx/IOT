@@ -37,37 +37,37 @@ class DeviceResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Forms\Components\TextInput::make('name')->label(__('fields.name'))
-            ->required()
-            ->unique(ignoreRecord: true)
-            ->maxLength(255),
-            Forms\Components\TextInput::make('erp_code')->label(__('fields.erp_code'))
-            ->required()
-            ->unique(ignoreRecord: true)
-            ->maxLength(255),
-            Forms\Components\Select::make('type_id')->label(__('fields.type'))
-            ->relationship('type', 'name')
-            ->searchable()
-            ->preload()
-            ->createOptionForm([
-            Forms\Components\TextInput::make('name')->label(__('fields.name'))
-            ->required()
-            ->unique()
-            ->maxLength(255)
-            ])
-            ->required(),
-            Forms\Components\TextInput::make('plant')->label(__('fields.plant'))
-            ->required()
-            ->maxLength(255),
-            Forms\Components\Toggle::make('active')->label(__('fields.active'))
-            ->onColor('success')
-            ->offColor('danger')
-            ->columnSpan('full'),
-            Forms\Components\TextInput::make('history')->label(__('fields.history'))
-            ->maxLength(255),
-            Forms\Components\TextInput::make('note')->label(__('fields.note'))
-            ->maxLength(255),
+            ->schema([
+                Forms\Components\TextInput::make('name')->label(__('fields.name'))
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('erp_code')->label(__('fields.erp_code'))
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+                Forms\Components\Select::make('type_id')->label(__('fields.type'))
+                    ->relationship('type', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')->label(__('fields.name'))
+                            ->required()
+                            ->unique()
+                            ->maxLength(255)
+                    ])
+                    ->required(),
+                Forms\Components\TextInput::make('plant')->label(__('fields.plant'))
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Toggle::make('active')->label(__('fields.active'))
+                    ->onColor('success')
+                    ->offColor('danger')
+                    ->columnSpan('full'),
+                Forms\Components\TextInput::make('history')->label(__('fields.history'))
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('note')->label(__('fields.note'))
+                    ->maxLength(255),
             ]);
     }
 
@@ -75,7 +75,25 @@ class DeviceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('name')->label(__('fields.name'))
+                    ->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('erp_code')->label(__('fields.erp_code'))
+                    ->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('type.name')->label(__('fields.type'))
+                    ->searchable()->sortable(),
+                Tables\Columns\IconColumn::make('active')->label(__('fields.active'))
+                    ->boolean()
+                    ->action(function ($record, $column) {
+                        $name = $column->getName();
+                        $record->update([
+                            $name => !$record->$name
+                        ]);
+                    }),
+                Tables\Columns\TextColumn::make('created_at')->label(__('fields.created_at'))
+                    ->dateTime('Y-m-d H:i')
+                    ->searchable()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
