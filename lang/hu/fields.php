@@ -8,4 +8,8 @@
     'plant' => 'Üzem',
     'active' => 'Aktív',
     'history' => 'Történet',
+    'qr_code' => 'QR kód',
+    'all' => 'Összes',
+    'inactive' => 'Inaktív',
+    'attachment' => 'Csatolt fájl'
 ];

@@ -8,4 +8,8 @@
     'plant' => 'Plant',
     'active' => 'Active',
     'history' => 'History',
+    'all' => 'All',
+    'inactive' => 'Inactive',
+    'qr_code' => 'QR code',
+    'attachment' => 'Attachment'
 ];
