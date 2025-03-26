@@ -44,5 +44,6 @@ class ListDevices extends ListRecords
         ];
     }
 
+
     public ?string $activeTab = 'active';
 }
