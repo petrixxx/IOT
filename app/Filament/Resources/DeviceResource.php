@@ -16,6 +16,7 @@ use Illuminate\Contracts\View\View;
 
 class DeviceResource extends Resource
 {
+    protected static ?int $navigationSort = 5;
     protected static ?string $model = Device::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench';
@@ -117,7 +118,7 @@ class DeviceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\DocumentsRelationManager::class,
         ];
     }
 

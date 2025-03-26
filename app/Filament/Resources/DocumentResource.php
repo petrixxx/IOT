@@ -12,9 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\View\View;
 
 class DocumentResource extends Resource
 {
+    protected static ?int $navigationSort = 6;
     protected static ?string $model = Document::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
@@ -76,6 +79,24 @@ class DocumentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label(__('actions.download'))
+                    ->action(function ($record) {
+                        return Storage::download('public/' . $record->attachment);
+                    })
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('primary'),
+                Tables\Actions\Action::make('QR')->label(__('fields.qr_code'))
+                    ->modalContent(fn($record): View =>
+                        view(
+                            'filament.resources.document-resource.pages.q-r-document',
+                            ['record' => $record]
+                        ))
+                    ->modalSubmitAction(false)
+                    ->modalCancelAction(false)
+                    ->icon('heroicon-o-printer')
+                    ->color('secondary')
+                    ->tooltip(__('actions.print') . ': ' . __('fields.qr_code'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -96,6 +117,7 @@ class DocumentResource extends Resource
         return [
             'index' => Pages\ListDocuments::route('/'),
             'create' => Pages\CreateDocument::route('/create'),
+            'qr' => Pages\QRDocument::route('/qr/{record}'),
             'view' => Pages\ViewDocument::route('/{record}'),
             'edit' => Pages\EditDocument::route('/{record}/edit'),
         ];

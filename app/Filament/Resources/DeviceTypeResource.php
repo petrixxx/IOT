@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DeviceTypeResource extends Resource
 {
+    protected static ?int $navigationSort = 4;
     protected static ?string $model = DeviceType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
