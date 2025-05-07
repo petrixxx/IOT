@@ -1,4 +1,5 @@
 <?php
-    return [
+return [
     'print' => 'Print',
+    'download' => 'Download',
 ];

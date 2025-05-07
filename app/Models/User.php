@@ -10,6 +10,8 @@ use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -53,5 +55,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function creators_worksheets(): HasMany
+    {
+        return $this->hasMany(Worksheet::class, 'creator_id');
+    }
+    public function repairers_worksheets(): HasMany
+    {
+        return $this->hasMany(Worksheet::class, 'repairer_id');
     }
 }

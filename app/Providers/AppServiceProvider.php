@@ -15,6 +15,7 @@ use App\Policies\DeviceTypePolicy;
 use App\Policies\PermissionPolicy;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -40,6 +41,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['hu','en']); // also accepts a closure
+        });
     }
 }
